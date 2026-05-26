@@ -3,8 +3,6 @@
 import streamlit as st
 import json
 
-
-
 #Funções para o cadastro do usuário
 arquivo = "usuarios.json"
 
@@ -61,7 +59,7 @@ def login_robo(nome, ip, senha):
 
 #Interface da streamlit
 st.title("Projeto Cold Drive")
-menu = st.sidebar.selectbox("Menu", ["Iniciar sessão", "Crie um login", "Cadastrar robô"])
+menu = st.sidebar.selectbox("Menu", ["Iniciar sessão", "Crie um login", "Cadastrar robô", "Login do robô"])
 
 #Menu de cadastro do usuário
 if menu == "Crie um login":
@@ -82,8 +80,6 @@ if menu == "Iniciar sessão":
         else:   
             st.error("Usuário ou senha incorretos. Tente novamente.")
 
-
-
 #Menu de cadastro do robô
 if menu == "Cadastrar robô":
     novo_ip = st.text_input("Insira o IP do robô")
@@ -95,11 +91,13 @@ if menu == "Cadastrar robô":
 
 #Menu de login do robô
 if menu == "Login do robô":
+    nome = st.text_input("Insira o nome do robô:")
     ip = st.text_input("Insira o IP do robô:")
-    senha = st.text_input("Insira a  senha", type="password")
+    senha = st.text_input("Insira a senha", type="password")
     if st.button("Login"):
-        if login_robo(ip, senha):
-            st.success("Login realizado com sucesso!")
-            #switch_page?
+        if login_robo(nome, ip, senha):
+            st.session_state["robo_ip"] = ip
+            st.session_state["robo_nome"] = nome
+            st.switch_page("pages/Carrinho.py")
         else:
-            st.error("Endereço IP ou senha incorretos. Tente novamente.")
+            st.error("Dados incorretos. Por favor, tente novamente.")
