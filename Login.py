@@ -21,8 +21,10 @@ def cadastro_usuario(login, senha):
         usuarios = json.load(f)
         for user in usuarios:
             if user["login"] == login:
-                st.error("Usuário já existe.")
-                return False
+                 if not novo_login or not nova_senha:
+                    st.error("Preencha todos os campos.")
+                    st.error("Usuário já existe.")
+            return False
         
         usuarios.append({"login": login, "senha": senha})
     with open(arquivo, "w") as f:
@@ -66,6 +68,9 @@ if menu == "Crie um login":
     novo_login = st.text_input("Crie um login: ")
     nova_senha = st.text_input("Crie uma senha:", type="password")
     if st.button("Cadastrar"):
+        if not novo_login or not nova_senha:
+            st.error("Preencha todos os campos.")
+    else:
         cadastro_usuario(novo_login, nova_senha)
         st.success("Cadastro realizado com sucesso!")
 
