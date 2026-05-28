@@ -1,0 +1,8 @@
+usuarios.json
+robos.json
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+.vscode/

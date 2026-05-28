@@ -6,9 +6,18 @@
 
 import pygame   # Biblioteca para criar a janela e capturar teclas
 import socket   # Biblioteca para comunicação via rede (TCP/IP)
+import sys
+
+ip = sys.argv[1]
+
+#cria o socket
+cliente = socket.socket()
+cliente.connect((ip, 5000))
 
 # Inicializa todos os módulos do pygame
 pygame.init()
+tela = pygame.display.set_mode((300, 300))
+fonte = pygame.font.SysFont(None, 40)
 
 # Cria a janela gráfica com tamanho 300x300 pixels
 tela = pygame.display.set_mode((300, 300))
@@ -44,7 +53,9 @@ while True:
 
         # Evento de fechar a janela (clicou no X)
         if e.type == pygame.QUIT:
-            pygame.quit()  # Encerra o pygame e fecha a janela
+            cliente.close()
+            pygame.quit()
+            sys.exit()  # Encerra o pygame e fecha a janela
 
         # Evento de tecla pressionada
         if e.type == pygame.KEYDOWN:
