@@ -125,7 +125,7 @@ Tela de Login
 
 ## 🔒 Segurança
 
-Os arquivos `usuarios.json` e `robos.json` contêm dados de acesso e **não se encontram** no repositório. Certifique-se de criá-los manualmente conforme as instruções acima antes de executar o projeto.
+Os arquivos `usuarios.json` e `robos.json` contêm dados de acesso e **não se encontram** no repositório. Certifique-se de criá-los manualmente conforme as instruções acima antes de executar o projeto. Vale mencionar que o login e senha **não são criptofrafados** por se tratar de um protótipo com fins didáticos. Caso contrário, usariámos um hash para esconder essas informações sensíveis.
 
 ---
 

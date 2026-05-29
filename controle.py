@@ -8,30 +8,21 @@ import pygame   # Biblioteca para criar a janela e capturar teclas
 import socket   # Biblioteca para comunicação via rede (TCP/IP)
 import sys
 
-ip = sys.argv[1]
-
-#cria o socket
+# ── Conexão com o servidor (Rover) ──────────────────────────
+# Cria um socket TCP (SOCK_STREAM é o padrão para conexões confiáveis)
 cliente = socket.socket()
-cliente.connect((ip, 5000))
+
+# Conecta ao servidor do Rover pelo IP passado como argumento
+cliente.connect((sys.argv[1], 5000))
 
 # Inicializa todos os módulos do pygame
 pygame.init()
-tela = pygame.display.set_mode((300, 300))
-fonte = pygame.font.SysFont(None, 40)
 
 # Cria a janela gráfica com tamanho 300x300 pixels
 tela = pygame.display.set_mode((300, 300))
 
 # Define a fonte de texto padrão do sistema com tamanho 40
 fonte = pygame.font.SysFont(None, 40)
-
-# ── Conexão com o servidor (Rover) ──────────────────────────
-# Cria um socket TCP (SOCK_STREAM é o padrão para conexões confiáveis)
-cliente = socket.socket()
-
-# Conecta ao servidor do Rover pelo IP e porta definidos
-# ⚠️ Altere o IP abaixo para o IP do seu Rover na rede local
-cliente.connect(("192.168.7.149", 5000))
 
 # ── Loop principal do programa ───────────────────────────────
 while True:
@@ -55,23 +46,19 @@ while True:
         if e.type == pygame.QUIT:
             cliente.close()
             pygame.quit()
-            sys.exit()  # Encerra o pygame e fecha a janela
+            sys.exit()
 
         # Evento de tecla pressionada
         if e.type == pygame.KEYDOWN:
-
             if e.key == pygame.K_w:
                 cliente.send(b"w")  # Envia comando: mover para frente
-
             if e.key == pygame.K_s:
                 cliente.send(b"s")  # Envia comando: mover para trás
-
             if e.key == pygame.K_a:
                 cliente.send(b"a")  # Envia comando: virar à esquerda
-
             if e.key == pygame.K_d:
                 cliente.send(b"d")  # Envia comando: virar à direita
 
-        # Evento de tecla solta — para o Rover quando nenhuma tecla está pressionada
+        # Evento de tecla solta — para o Rover
         if e.type == pygame.KEYUP:
             cliente.send(b"p")  # Envia comando: parar
