@@ -9,10 +9,7 @@ import socket   # Biblioteca para comunicação via rede (TCP/IP)
 import sys
 
 # ── Conexão com o servidor (Rover) ──────────────────────────
-# Cria um socket TCP (SOCK_STREAM é o padrão para conexões confiáveis)
 cliente = socket.socket()
-
-# Conecta ao servidor do Rover pelo IP passado como argumento
 cliente.connect((sys.argv[1], 5000))
 
 # Inicializa todos os módulos do pygame
@@ -27,38 +24,27 @@ fonte = pygame.font.SysFont(None, 40)
 # ── Loop principal do programa ───────────────────────────────
 while True:
 
-    # Preenche a tela com a cor de fundo (cinza escuro)
     tela.fill((30, 30, 30))
-
-    # Renderiza o texto de instrução em branco
     texto = fonte.render("Use W A S D", True, (255, 255, 255))
-
-    # Desenha o texto na tela na posição (60, 130)
     tela.blit(texto, (60, 130))
-
-    # Atualiza a janela para exibir o que foi desenhado
     pygame.display.update()
 
-    # ── Leitura de eventos (teclado, fechar janela, etc.) ────
     for e in pygame.event.get():
 
-        # Evento de fechar a janela (clicou no X)
         if e.type == pygame.QUIT:
             cliente.close()
             pygame.quit()
             sys.exit()
 
-        # Evento de tecla pressionada
         if e.type == pygame.KEYDOWN:
             if e.key == pygame.K_w:
-                cliente.send(b"w")  # Envia comando: mover para frente
+                cliente.send(b"w")
             if e.key == pygame.K_s:
-                cliente.send(b"s")  # Envia comando: mover para trás
+                cliente.send(b"s")
             if e.key == pygame.K_a:
-                cliente.send(b"a")  # Envia comando: virar à esquerda
+                cliente.send(b"a")
             if e.key == pygame.K_d:
-                cliente.send(b"d")  # Envia comando: virar à direita
+                cliente.send(b"d")
 
-        # Evento de tecla solta — para o Rover
         if e.type == pygame.KEYUP:
-            cliente.send(b"p")  # Envia comando: parar
+            cliente.send(b"p")
